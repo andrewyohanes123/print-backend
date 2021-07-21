@@ -24,12 +24,13 @@ const usersRoute: Routes = (
 		a(
 			async (req: express.Request, res: express.Response): Promise<void> => {
 				const parsed: sequelize.FindOptions<UserInstance> = Parser.parseQuery<UserInstance>(
+					// @ts-ignore
 					req.query.q,
 					models,
 				);
 				const data: PaginatedResult<UserInstance> = await models.User.findAndCountAll(parsed);
 				const body: OkResponse = { data };
-
+				// @ts-ignore
 				res.json(body);
 			},
 		),
@@ -39,11 +40,13 @@ const usersRoute: Routes = (
 		'/:id',
 		a(
 			async (req: express.Request, res: express.Response): Promise<void> => {
+				// @ts-ignore
 				const { id }: any = req.params;
 				const user: UserInstance | null = await models.User.findOne({ where: { id } });
 				if (!user) throw new NotFoundError('User tidak ditemukan');
 				const body: OkResponse = { data: user };
 
+				// @ts-ignore
 				res.json(body);
 			},
 		),
@@ -54,6 +57,7 @@ const usersRoute: Routes = (
 		createUser,
 		a(
 			async (req: express.Request, res: express.Response): Promise<void> => {
+				// @ts-ignore
 				const data: UserAttributes = req.body;
 				const user: UserInstance = await models.User.create({
 					...data,
@@ -61,6 +65,7 @@ const usersRoute: Routes = (
 				});
 				const body: OkResponse = { data: user };
 
+				// @ts-ignore
 				res.json(body);
 			},
 		),
@@ -71,13 +76,16 @@ const usersRoute: Routes = (
 		editUser,
 		a(
 			async (req: express.Request, res: express.Response): Promise<void> => {
+				// @ts-ignore
 				const { id }: any = req.params;
+				// @ts-ignore
 				const data: UserAttributes = req.body;
 				const user: UserInstance | null = await models.User.findOne({ where: { id } });
 				if (!user) throw new NotFoundError('User tidak ditemukan');
 				await user.update({ ...data, password: bcrypt.hashSync(data.password, 10) });
 				const body: OkResponse = { data: user };
 
+				// @ts-ignore
 				res.json(body);
 			},
 		),
@@ -87,12 +95,13 @@ const usersRoute: Routes = (
 		'/:id',
 		a(
 			async (req: express.Request, res: express.Response): Promise<void> => {
+				// @ts-ignore
 				const { id }: any = req.params;
 				const user: UserInstance | null = await models.User.findOne({ where: { id } });
 				if (!user) throw new NotFoundError('User tidak ditemukan');
 				await user.destroy();
 				const body: OkResponse = { data: user };
-
+				// @ts-ignore
 				res.json(body);
 			},
 		),

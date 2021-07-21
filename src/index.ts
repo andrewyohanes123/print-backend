@@ -87,6 +87,7 @@ app.get(
 				});
 			}
 		});
+		// @ts-ignore
 		res.json(data);
 	},
 );

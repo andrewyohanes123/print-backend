@@ -10,6 +10,7 @@ const a: A = (handler: express.Handler): express.Handler => {
 		res: express.Response,
 		next: express.NextFunction,
 	): Promise<express.Handler> => {
+		// @ts-ignore
 		return Promise.resolve(handler(req, res, next)).catch(
 			(
 				err:
@@ -21,15 +22,21 @@ const a: A = (handler: express.Handler): express.Handler => {
 			) => {
 				if (err instanceof Sequelize.UniqueConstraintError) {
 					const response: ErrorResponse = { errors: extractErrorResponse(err) };
+					// @ts-ignore
 					res.status(422);
+					// @ts-ignore
 					res.json(response);
 				} else if (err instanceof Sequelize.ValidationError) {
 					const response: ErrorResponse = { errors: extractErrorResponse(err) };
+					// @ts-ignore
 					res.status(422);
+					// @ts-ignore
 					res.json(response);
 				} else {
 					const response: ErrorResponse = { errors: [{ msg: err.message }] };
+					// @ts-ignore
 					res.status(err.code ? err.code : 500);
+					// @ts-ignore
 					res.json(response);
 				}
 			},

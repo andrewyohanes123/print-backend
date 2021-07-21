@@ -17,8 +17,11 @@ const route: Routes = (app: express.Application, models: ModelFactoryInterface):
 		'/',
 		a(
 			async (req: express.Request, res: express.Response): Promise<void> => {
+				// @ts-ignore
 				if (!req.user) throw new AuthError('Sesi habis');
+				// @ts-ignore
 				const body: OkResponse = { data: req.user };
+				// @ts-ignore
 				res.json(body);
 			},
 		),
@@ -29,6 +32,7 @@ const route: Routes = (app: express.Application, models: ModelFactoryInterface):
 		validation.login,
 		a(
 			async (req: express.Request, res: express.Response): Promise<void> => {
+				// @ts-ignore
 				const { username, password }: { username: string; password: string } = req.body;
 				const user: UserInstance | null = await User.findOne({ where: { username: username } });
 				if (user) {
@@ -39,6 +43,7 @@ const route: Routes = (app: express.Application, models: ModelFactoryInterface):
 							models,
 						);
 						const response: OkResponse = { data: { tokens, user } };
+						// @ts-ignore
 						res.json(response);
 					} else throw new AuthError('Login tidak valid');
 				} else throw new AuthError('Login tidak valid');
@@ -50,13 +55,19 @@ const route: Routes = (app: express.Application, models: ModelFactoryInterface):
 		'/',
 		a(
 			async (req: express.Request, res: express.Response): Promise<void> => {
+				// @ts-ignore
 				if (req.user) {
+					// @ts-ignore
 					await Token.update({ used: true }, { where: { user_id: req.user.id || 0 } });
 				}
 				const response: OkResponse = { data: 'Logout berhasil' };
+				// @ts-ignore
 				res.set('Access-Control-Expose-Headers', 'x-access-token, x-refresh-token');
+				// @ts-ignore
 				res.set('x-access-token', '');
+				// @ts-ignore
 				res.set('x-refresh-token', '');
+				// @ts-ignore
 				res.json(response);
 			},
 		),
