@@ -1,7 +1,6 @@
 import Sequelize from 'sequelize';
 import { UserInstance, UserAttributes } from '../User';
 import { TokenInstance, TokenAttributes } from '../Token';
-import { BrandAttributes, BrandInstance } from '../Brand';
 import { ClothAttributes, ClothInstance } from '../Cloth';
 import { OrderAttributes, OrderInstance } from '../Order';
 import { ColorAttributes, ColorInstance } from '../Color';
@@ -10,6 +9,7 @@ import { PortfolioAttributes, PortfolioInstance } from '../Portfolio';
 import { AboutAttributes, AboutInstance } from '../About';
 import { ClothSideAttributes, ClothSideInstance } from '../ClothSide';
 import { OrderClothSideAttributes, OrderClothSideInstance } from '../OrderClothSide';
+import { ClothSizeAttributes, ClothSizeInstance } from '../ClothSize';
 
 interface Obj {
 	[s: string]: any;
@@ -20,7 +20,6 @@ export default interface ModelFactoryInterface extends Obj {
 	Sequelize: Sequelize.SequelizeStatic;
 	User: Sequelize.Model<UserInstance, UserAttributes>;
 	Token: Sequelize.Model<TokenInstance, TokenAttributes>;
-	Brand: Sequelize.Model<BrandInstance, BrandAttributes>;
 	Cloth: Sequelize.Model<ClothInstance, ClothAttributes>;
 	Order: Sequelize.Model<OrderInstance, OrderAttributes>;
 	Color: Sequelize.Model<ColorInstance, ColorAttributes>;
@@ -29,4 +28,5 @@ export default interface ModelFactoryInterface extends Obj {
 	About: Sequelize.Model<AboutInstance, AboutAttributes>;
 	ClothSide: Sequelize.Model<ClothSideInstance, ClothSideAttributes>;
 	OrderClothSide: Sequelize.Model<OrderClothSideInstance, OrderClothSideAttributes>;
+	ClothSize: Sequelize.Model<ClothSizeInstance, ClothSizeAttributes>;
 }

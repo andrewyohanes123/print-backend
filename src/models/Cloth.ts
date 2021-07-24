@@ -6,7 +6,6 @@ import ModelFactoryInterface from './typings/ModelFactoryInterface';
 export interface ClothAttributes {
 	id?: number;
 	name: string;
-  price: number;
 	brand_id?: number;
 	created_at?: Date;
 	updated_at?: Date;
@@ -28,10 +27,6 @@ export const ClothFactory: Factory<ClothInstance, ClothAttributes> = (
 			type: DataTypes.STRING(191),
 			allowNull: false,
 		},
-    price: {
-      type: DataTypes.INTEGER(32),
-      allowNull: false
-    }
 	};
 	const Cloth: Sequelize.Model<ClothInstance, ClothAttributes> = sequelize.define<
 		ClothInstance,
@@ -39,8 +34,9 @@ export const ClothFactory: Factory<ClothInstance, ClothAttributes> = (
 	>('cloth', attributes, { underscored: true });
 
 	Cloth.associate = (models: ModelFactoryInterface): void => {
-		Cloth.belongsTo(models.Brand, { onDelete: 'cascade' });
 		Cloth.hasMany(models.Order, { onDelete: 'cascade' });
+		Cloth.hasMany(models.ClothSize, { onDelete: 'cascade' });
+		Cloth.hasMany(models.ClothSide, { onDelete: 'cascade' });
 	};
 
 	return Cloth;

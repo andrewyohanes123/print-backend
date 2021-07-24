@@ -94,8 +94,8 @@ const usersRoute: Routes = (
 	router.delete(
 		'/:id',
 		a(
+			// @ts-ignore
 			async (req: express.Request, res: express.Response): Promise<void> => {
-				// @ts-ignore
 				const { id }: any = req.params;
 				const user: UserInstance | null = await models.User.findOne({ where: { id } });
 				if (!user) throw new NotFoundError('User tidak ditemukan');

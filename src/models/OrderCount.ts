@@ -8,7 +8,7 @@ export interface OrderCountAttributes {
   amount: number;
   order_id?: number;
   cloth_id?: number;
-  size: 'S' | 'M' | 'L' | 'XL' | 'XXL';
+  size_id?: number;
   created_at?: Date;
   updated_at?: Date;
 }
@@ -28,10 +28,6 @@ export const OrderCountFactory: Factory<OrderCountInstance, OrderCountAttributes
     amount: {
       type: DataTypes.INTEGER(32),
       allowNull: false,
-    },
-    size: {
-      type: DataTypes.ENUM(['S', 'M', 'L', 'XL', 'XXL']),
-      allowNull: false
     }
   };
   const OrderCount: Sequelize.Model<OrderCountInstance, OrderCountAttributes> = sequelize.define<

@@ -3,7 +3,6 @@ import ModelFactoryInterface from './typings/ModelFactoryInterface';
 import { UserFactory } from './User';
 import { TokenFactory } from './Token';
 import { ClothFactory } from './Cloth';
-import { BrandFactory } from './Brand';
 import { OrderFactory } from './Order';
 import { OrderCountFactory } from './OrderCount';
 import { ColorFactory } from './Color';
@@ -11,6 +10,7 @@ import { PortfolioFactory } from './Portfolio';
 import { AboutFactory } from './About';
 import { ClothSideFactory } from './ClothSide';
 import { OrderClothSideFactory } from './OrderClothSide';
+import { ClothSizeFactory } from './ClothSize';
 const createModels: Function = (): ModelFactoryInterface => {
 	const {
 		DB_HOST,
@@ -35,14 +35,14 @@ const createModels: Function = (): ModelFactoryInterface => {
 		User: UserFactory(sequelize, Sequelize),
 		Token: TokenFactory(sequelize, Sequelize),
 		Cloth: ClothFactory(sequelize, Sequelize),
-		Brand: BrandFactory(sequelize, Sequelize),
 		Order: OrderFactory(sequelize, Sequelize),
 		OrderCount: OrderCountFactory(sequelize, Sequelize),
 		Color: ColorFactory(sequelize, Sequelize),
 		Portfolio: PortfolioFactory(sequelize, Sequelize),
 		About: AboutFactory(sequelize, Sequelize),
 		ClothSide: ClothSideFactory(sequelize, Sequelize),
-		OrderClothSide: OrderClothSideFactory(sequelize, Sequelize)
+		OrderClothSide: OrderClothSideFactory(sequelize, Sequelize),
+		ClothSize: ClothSizeFactory(sequelize, Sequelize)
 	};
 
 	Object.keys(db).forEach(
