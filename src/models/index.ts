@@ -10,7 +10,7 @@ import { PortfolioFactory } from './Portfolio';
 import { AboutFactory } from './About';
 import { ClothSideFactory } from './ClothSide';
 import { OrderClothSideFactory } from './OrderClothSide';
-import { ClothSizeFactory } from './ClothSize';
+
 const createModels: Function = (): ModelFactoryInterface => {
 	const {
 		DB_HOST,
@@ -41,8 +41,7 @@ const createModels: Function = (): ModelFactoryInterface => {
 		Portfolio: PortfolioFactory(sequelize, Sequelize),
 		About: AboutFactory(sequelize, Sequelize),
 		ClothSide: ClothSideFactory(sequelize, Sequelize),
-		OrderClothSide: OrderClothSideFactory(sequelize, Sequelize),
-		ClothSize: ClothSizeFactory(sequelize, Sequelize)
+		OrderClothSide: OrderClothSideFactory(sequelize, Sequelize)
 	};
 
 	Object.keys(db).forEach(

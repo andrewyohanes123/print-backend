@@ -5,10 +5,10 @@ import ModelFactoryInterface from './typings/ModelFactoryInterface';
 
 export interface OrderClothSideAttributes {
   id?: number;
-  design_x: number;
-  design_y: number;
+  design_file: string;
   design_width: number;
   design_height: number;
+  mockup_file: string;
   order_id?: number;
   cloth_side_id?: number;
   created_at?: Date;
@@ -27,22 +27,22 @@ export const OrderClothSideFactory: Factory<OrderClothSideInstance, OrderClothSi
   DataTypes: Sequelize.DataTypes,
 ): Sequelize.Model<OrderClothSideInstance, OrderClothSideAttributes> => {
   const attributes: SequelizeAttributes<OrderClothSideAttributes> = {
-    design_x: {
-      type: DataTypes.INTEGER(32),
-      allowNull: false,
-    },
-    design_y: {
-      type: DataTypes.INTEGER(32),
-      allowNull: false,
-    },
-    design_width: {
-      type: DataTypes.INTEGER(32),
+    design_file: {
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     design_height: {
       type: DataTypes.INTEGER(32),
       allowNull: false,
     },
+    design_width: {
+      type: DataTypes.INTEGER(32),
+      allowNull: false
+    },
+    mockup_file: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    }
   };
   const OrderClothSide: Sequelize.Model<OrderClothSideInstance, OrderClothSideAttributes> = sequelize.define<
     OrderClothSideInstance,

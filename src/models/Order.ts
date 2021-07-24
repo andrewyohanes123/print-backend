@@ -8,9 +8,6 @@ export interface OrderAttributes {
 	name: string;
   email: string;
   phone: string;
-  design_width: number;
-  design_height: number;
-  design_file: string;
   confirmed?: boolean;
   order_number: string;
 	created_at?: Date;
@@ -39,18 +36,6 @@ export const OrderFactory: Factory<OrderInstance, OrderAttributes> = (
     },
     phone: {
       type: DataTypes.STRING(191),
-      allowNull: false
-    },
-    design_width: {
-      type: DataTypes.INTEGER(32),
-      allowNull: false
-    },
-    design_height: {
-      type: DataTypes.INTEGER(32),
-      allowNull: false
-    },
-    design_file: {
-      type: DataTypes.TEXT,
       allowNull: false
     },
     confirmed: {
