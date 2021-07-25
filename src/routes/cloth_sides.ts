@@ -1,5 +1,8 @@
 
 import express from 'express';
+import fs from 'fs'
+import path from 'path'
+import multer from 'multer'
 import ModelFactoryInterface from '../models/typings/ModelFactoryInterface';
 import { Routes } from './typings/RouteInterface';
 import a from '../middlewares/wrapper/a';
@@ -9,6 +12,18 @@ import sequelize from 'sequelize';
 import { Parser } from '../helpers/Parser';
 import NotFoundError from '../classes/NotFoundError';
 import { ClothSideInstance, ClothSideAttributes } from '../models/ClothSide';
+
+const multerStorage: multer.StorageEngine = multer.diskStorage({
+    filename: (req, file, cb) => {
+        const date = new Date().toISOString().replace(/\:/g, '');
+        cb(null, `${date}-[${file.fieldname}]-${file.originalname}`);
+    },
+    destination: path.resolve(__dirname, '..', '..', 'uploads')
+})
+
+export type multerFiles = { [fieldname: string]: Express.Multer.File[] };
+
+const upload: multer.Multer = multer({storage: multerStorage});
 
 const clothsidesRoutes: Routes = (
     app: express.Application,
@@ -49,10 +64,17 @@ const clothsidesRoutes: Routes = (
 
     router.post(
         '/',
+        upload.fields([{name: 'cloth_base', maxCount: 1}, {name: 'cloth_background', maxCount: 1}]),
         // validation,
         a(
             async (req: express.Request, res: express.Response): Promise<void> => {
                 const attributes: ClothSideAttributes = req.body;
+                const files = req.files as multerFiles;
+                // console.log(files)
+                Object.keys(files).forEach((file: string) => {
+                    // @ts-ignore
+                    attributes[file as keyof typeof attributes] = files[file][0].filename;
+                })
                 const clothside: ClothSideInstance = await models.ClothSide.create(attributes);
                 const body: OkResponse = { data: clothside };
 
@@ -97,4 +119,3 @@ const clothsidesRoutes: Routes = (
 };
 
 export default clothsidesRoutes;
-    

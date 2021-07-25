@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import nocache from 'nocache';
 import cors from 'cors';
 import path from 'path';
+import fs from 'fs'
 import http from 'http';
 import socketio from 'socket.io';
 import _ from 'lodash';
@@ -91,6 +92,21 @@ app.get(
 		res.json(data);
 	},
 );
+
+app.get(
+	'/public/files/:name',
+	(req: express.Request<{ name: string }>, res: express.Response): void => {
+		const { name }: { name: string } = req.params;
+		const filePath: string = path.resolve(__dirname, '..', 'uploads', name);
+		const fileExists = fs.existsSync(filePath);
+		if (fileExists) {
+			res.sendFile(filePath);
+		} else {
+			res.status(404);
+			res.send(`File ${name} tidak ada`)
+		}
+	}
+)
 
 /** root route */
 if (process.env.NODE_ENV === 'development') {

@@ -35,4 +35,9 @@ if (!fs.existsSync(path.resolve(__dirname, '..', '.env'))) {
 if (!fs.existsSync(path.resolve(__dirname, '..', 'temp'))) {
 	fs.mkdirSync(path.resolve(__dirname, '..', 'temp'));
 }
+
+if (!fs.existsSync(path.resolve(__dirname, '..', 'uploads'))) {
+	fs.mkdirSync(path.resolve(__dirname, '..', 'uploads'));
+}
+
 log(chalk.cyan('(postinstall) : File .env telah dibuat\n'));

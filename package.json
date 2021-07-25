@@ -14,7 +14,8 @@
     "postinstall": "ts-node ./scripts/postinstall.ts",
     "route:create": "ts-node ./scripts/route.create.ts",
     "db:clean": "ts-node ./scripts/db.clean.ts",
-    "default:user": "ts-node ./scripts/default.user.ts"
+    "default:user": "ts-node ./scripts/default.user.ts",
+    "fill:colors": "ts-node ./scripts/fill.color.ts"
   },
   "author": "",
   "license": "ISC",
@@ -56,6 +57,7 @@
     "@types/inquirer": "^6.5.0",
     "@types/joi": "^14.0.0",
     "@types/jsonwebtoken": "^8.3.0",
+    "@types/multer": "^1.4.7",
     "@types/pluralize": "^0.0.29",
     "@types/sequelize": "^4.27.32",
     "@types/socket.io": "^2.1.2",
