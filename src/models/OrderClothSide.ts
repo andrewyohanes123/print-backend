@@ -8,6 +8,8 @@ export interface OrderClothSideAttributes {
   design_file: string;
   design_width: number;
   design_height: number;
+  design_x: number;
+  design_y: number;
   mockup_file: string;
   order_id?: number;
   cloth_side_id?: number;
@@ -42,12 +44,20 @@ export const OrderClothSideFactory: Factory<OrderClothSideInstance, OrderClothSi
     mockup_file: {
       type: DataTypes.TEXT,
       allowNull: false
+    },
+    design_x: {
+      type: DataTypes.INTEGER(32),
+      allowNull: false
+    },
+    design_y: {
+      type: DataTypes.INTEGER(32),
+      allowNull: false
     }
   };
   const OrderClothSide: Sequelize.Model<OrderClothSideInstance, OrderClothSideAttributes> = sequelize.define<
     OrderClothSideInstance,
     OrderClothSideAttributes
-  >('orderclothside', attributes, { underscored: true });
+  >('order_cloth_side', attributes, { underscored: true });
 
   OrderClothSide.associate = (models: ModelFactoryInterface): void => {
     OrderClothSide.belongsTo(models.Cloth, { onDelete: 'cascade' });
