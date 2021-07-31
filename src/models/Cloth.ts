@@ -8,6 +8,7 @@ export interface ClothAttributes {
 	name: string;
 	price: number;
 	created_at?: Date;
+	color_id?: number;
 	updated_at?: Date;
 }
 
@@ -41,6 +42,8 @@ export const ClothFactory: Factory<ClothInstance, ClothAttributes> = (
 	Cloth.associate = (models: ModelFactoryInterface): void => {
 		Cloth.hasMany(models.Order, { onDelete: 'cascade' });
 		Cloth.hasMany(models.ClothSide, { onDelete: 'cascade' });
+		Cloth.hasMany(models.ClothSide, { onDelete: 'cascade' });
+		Cloth.hasMany(models.Color, { onDelete: 'cascade' });
 	};
 
 	return Cloth;

@@ -9,6 +9,7 @@ export interface OrderAttributes {
   email: string;
   phone: string;
   confirmed?: boolean;
+	custom_cloth: boolean;
   order_number: string;
 	created_at?: Date;
 	updated_at?: Date;
@@ -46,7 +47,12 @@ export const OrderFactory: Factory<OrderInstance, OrderAttributes> = (
     order_number: {
       type: DataTypes.STRING(191),
       allowNull: false,      
-    }
+    },
+		custom_cloth: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			defaultValue: false
+		}
 	};
 	const Order: Sequelize.Model<OrderInstance, OrderAttributes> = sequelize.define<
 		OrderInstance,

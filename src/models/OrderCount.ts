@@ -6,7 +6,7 @@ import ModelFactoryInterface from './typings/ModelFactoryInterface';
 export interface OrderCountAttributes {
   id?: number;
   amount: number;
-  size: 'S' | 'M' | 'L' | 'XL' | 'XXL'
+  size_id?: number;
   order_id?: number;
   cloth_id?: number;
   created_at?: Date;
@@ -28,11 +28,6 @@ export const OrderCountFactory: Factory<OrderCountInstance, OrderCountAttributes
     amount: {
       type: DataTypes.INTEGER(32),
       allowNull: false,
-    },
-    size: {
-      type: DataTypes.ENUM(['S', 'M', 'L', 'XL', 'XXL']),
-      allowNull: false,
-      defaultValue: 'M'
     }
   };
   const OrderCount: Sequelize.Model<OrderCountInstance, OrderCountAttributes> = sequelize.define<
@@ -43,6 +38,7 @@ export const OrderCountFactory: Factory<OrderCountInstance, OrderCountAttributes
   OrderCount.associate = (models: ModelFactoryInterface): void => {
     OrderCount.belongsTo(models.Order, { onDelete: 'cascade' });
     OrderCount.belongsTo(models.Cloth, { onDelete: 'cascade' });
+    OrderCount.belongsTo(models.Size, { onDelete: 'cascade' });
   };
 
   return OrderCount;

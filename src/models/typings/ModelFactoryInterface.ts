@@ -9,6 +9,8 @@ import { PortfolioAttributes, PortfolioInstance } from '../Portfolio';
 import { AboutAttributes, AboutInstance } from '../About';
 import { ClothSideAttributes, ClothSideInstance } from '../ClothSide';
 import { OrderClothSideAttributes, OrderClothSideInstance } from '../OrderClothSide';
+import { SizeAttributes, SizeInstance } from '../Size';
+import { ColorSizeStockAttributes, ColorSizeStockInstance } from '../ColorSizeStock';
 
 interface Obj {
 	[s: string]: any;
@@ -27,4 +29,6 @@ export default interface ModelFactoryInterface extends Obj {
 	About: Sequelize.Model<AboutInstance, AboutAttributes>;
 	ClothSide: Sequelize.Model<ClothSideInstance, ClothSideAttributes>;
 	OrderClothSide: Sequelize.Model<OrderClothSideInstance, OrderClothSideAttributes>;
+	Size: Sequelize.Model<SizeInstance, SizeAttributes>;
+	ColorSizeStock: Sequelize.Model<ColorSizeStockInstance, ColorSizeStockAttributes>;
 }

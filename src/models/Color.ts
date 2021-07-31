@@ -7,6 +7,7 @@ export interface ColorAttributes {
 	id?: number;
   name: string;
 	color: string;
+	cloth_id?: number;
 	created_at?: Date;
 	updated_at?: Date;
 }
@@ -38,7 +39,8 @@ export const ColorFactory: Factory<ColorInstance, ColorAttributes> = (
 	>('color', attributes, { underscored: true });
 
 	Color.associate = (models: ModelFactoryInterface): void => {
-		Color.hasMany(models.Cloth, { onDelete: 'cascade' });
+		Color.belongsTo(models.Cloth, { onDelete: 'cascade' });
+		Color.hasMany(models.ColorSizeStock, { onDelete: 'cascade' });
 	};
 
 	return Color;
