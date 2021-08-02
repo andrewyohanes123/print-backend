@@ -1,5 +1,7 @@
 
 import express from 'express';
+import fs from 'fs'
+import path from 'path'
 import ModelFactoryInterface from '../models/typings/ModelFactoryInterface';
 import { Routes } from './typings/RouteInterface';
 import a from '../middlewares/wrapper/a';
@@ -9,6 +11,19 @@ import sequelize from 'sequelize';
 import { Parser } from '../helpers/Parser';
 import NotFoundError from '../classes/NotFoundError';
 import { OrderInstance, OrderAttributes } from '../models/Order';
+import { OrderClothSideAttributes } from '../models/OrderClothSide';
+import { ColorSizeStockInstance } from '../models/ColorSizeStock';
+
+export interface OrderAmount {
+    color_size_stock_id: number;
+    amount: number;
+    size_id: number;
+}
+
+interface CreateOrder extends OrderAttributes {
+    order_counts: OrderAmount[];
+    cloth_sides: OrderClothSideAttributes[];
+}
 
 const ordersRoutes: Routes = (
     app: express.Application,
@@ -52,8 +67,40 @@ const ordersRoutes: Routes = (
         // validation,
         a(
             async (req: express.Request, res: express.Response): Promise<void> => {
-                const attributes: OrderAttributes = req.body;
+                const attributes: CreateOrder = req.body;
+                const currentDate: Date = new Date();
+                const totalOrderToday: OrderInstance[] = await models.Order.findAll({
+                    where: {
+                        created_at: currentDate
+                    }
+                })
+                const { order_counts, cloth_sides, custom_cloth, cloth_id } = attributes;
+                // created order
                 const order: OrderInstance = await models.Order.create(attributes);
+                // ----
+                attributes.order_number = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}-${totalOrderToday.length + 1}`;
+                for (let i = 0; i < order_counts.length; i++) {
+                    await models.OrderCount.create({ cloth_id, amount: order_counts[i].amount, order_id: order.id });
+                    if (!custom_cloth) {
+                        const stock: ColorSizeStockInstance | null = await models.ColorSizeStock.findByPk(order_counts[i].color_size_stock_id);
+                        stock && await stock.update({ stock: stock.stock - order_counts[i].amount });
+                    }
+                }
+                for (let i = 0; i < cloth_sides.length; i++) {
+                    const { cloth_side_id, design_file, design_x, design_y, design_height, design_width } = cloth_sides[i];
+                    const filename = `${currentDate.toISOString().replace(/\:/g, '')}[${cloth_side_id}]-[${order.id}]-[order_sides_design].png`
+                    fs.writeFileSync(path.resolve(__dirname, '..', '..', 'uploads', filename), design_file, 'base64');
+                    await models.OrderClothSide.create({
+                        design_width,
+                        design_height,
+                        design_y,
+                        design_x,
+                        design_file: filename,
+                        mockup_file: filename,
+                        order_id: order.id,
+                        cloth_side_id
+                    });
+                }
                 const body: OkResponse = { data: order };
 
                 res.json(body);
@@ -97,4 +144,3 @@ const ordersRoutes: Routes = (
 };
 
 export default ordersRoutes;
-    

@@ -13,7 +13,7 @@ import { Parser } from '../helpers/Parser';
 import NotFoundError from '../classes/NotFoundError';
 import { ClothSideInstance, ClothSideAttributes } from '../models/ClothSide';
 
-const multerStorage: multer.StorageEngine = multer.diskStorage({
+export const multerStorage: multer.StorageEngine = multer.diskStorage({
     filename: (req, file, cb) => {
         const date = new Date().toISOString().replace(/\:/g, '');
         cb(null, `${date}-[${file.fieldname}]-${file.originalname}`);
@@ -23,7 +23,7 @@ const multerStorage: multer.StorageEngine = multer.diskStorage({
 
 export type multerFiles = { [fieldname: string]: Express.Multer.File[] };
 
-const upload: multer.Multer = multer({storage: multerStorage});
+export const upload: multer.Multer = multer({storage: multerStorage});
 
 const clothsidesRoutes: Routes = (
     app: express.Application,

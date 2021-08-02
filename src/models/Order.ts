@@ -10,6 +10,7 @@ export interface OrderAttributes {
   phone: string;
   confirmed?: boolean;
 	custom_cloth: boolean;
+	cloth_id?: number;
   order_number: string;
 	created_at?: Date;
 	updated_at?: Date;
@@ -62,7 +63,7 @@ export const OrderFactory: Factory<OrderInstance, OrderAttributes> = (
 	Order.associate = (models: ModelFactoryInterface): void => {
 		Order.hasMany(models.OrderCount, { onDelete: 'cascade' });
 		Order.hasMany(models.OrderClothSide, { onDelete: 'cascade' });
-		Order.belongsTo(models.Color, { onDelete: 'cascade' });
+		Order.belongsTo(models.Cloth, { onDelete: 'cascade' });
 	};
 
 	return Order;
