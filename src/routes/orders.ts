@@ -75,10 +75,10 @@ const ordersRoutes: Routes = (
                     }
                 })
                 const { order_counts, cloth_sides, custom_cloth, cloth_id } = attributes;
+                attributes.order_number = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}-${totalOrderToday.length + 1}`;
                 // created order
                 const order: OrderInstance = await models.Order.create(attributes);
                 // ----
-                attributes.order_number = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}-${totalOrderToday.length + 1}`;
                 for (let i = 0; i < order_counts.length; i++) {
                     await models.OrderCount.create({ cloth_id, amount: order_counts[i].amount, order_id: order.id });
                     if (!custom_cloth) {
@@ -89,7 +89,7 @@ const ordersRoutes: Routes = (
                 for (let i = 0; i < cloth_sides.length; i++) {
                     const { cloth_side_id, design_file, design_x, design_y, design_height, design_width } = cloth_sides[i];
                     const filename = `${currentDate.toISOString().replace(/\:/g, '')}[${cloth_side_id}]-[${order.id}]-[order_sides_design].png`
-                    fs.writeFileSync(path.resolve(__dirname, '..', '..', 'uploads', filename), design_file, 'base64');
+                    fs.writeFileSync(path.resolve(__dirname, '..', '..', 'uploads', filename), design_file.split(',')[1], 'base64');
                     await models.OrderClothSide.create({
                         design_width,
                         design_height,
@@ -98,7 +98,7 @@ const ordersRoutes: Routes = (
                         design_file: filename,
                         mockup_file: filename,
                         order_id: order.id,
-                        cloth_side_id
+                        cloth_side_id,
                     });
                 }
                 const body: OkResponse = { data: order };
