@@ -11,6 +11,7 @@ export interface OrderAttributes {
   confirmed?: boolean;
 	custom_cloth: boolean;
 	cloth_id?: number;
+	color_id?: number;
   order_number: string;
 	created_at?: Date;
 	updated_at?: Date;
@@ -64,6 +65,7 @@ export const OrderFactory: Factory<OrderInstance, OrderAttributes> = (
 		Order.hasMany(models.OrderCount, { onDelete: 'cascade' });
 		Order.hasMany(models.OrderClothSide, { onDelete: 'cascade' });
 		Order.belongsTo(models.Cloth, { onDelete: 'cascade' });
+		Order.belongsTo(models.Color, { onDelete: 'cascade' });
 	};
 
 	return Order;

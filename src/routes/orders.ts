@@ -53,7 +53,13 @@ const ordersRoutes: Routes = (
         a(
             async (req: express.Request, res: express.Response): Promise<void> => {
                 const { id }: any = req.params;
-                const order: OrderInstance | null = await models.Order.findByPk(id);
+                const order: OrderInstance | null = await models.Order.findByPk(id, {
+                    include: [{
+                        model: models.Color, attributes: ['id', 'color'],
+                    }, {
+                        model: models.Cloth, attributes: ['id', 'name']
+                    }]
+                });
                 if (!order) throw new NotFoundError('Order tidak ditemukan');
                 const body: OkResponse = { data: order };
 

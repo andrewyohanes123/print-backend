@@ -41,6 +41,7 @@ export const ColorFactory: Factory<ColorInstance, ColorAttributes> = (
 	Color.associate = (models: ModelFactoryInterface): void => {
 		Color.belongsTo(models.Cloth, { onDelete: 'cascade' });
 		Color.hasMany(models.ColorSizeStock, { onDelete: 'cascade' });
+		Color.hasMany(models.Order, { onDelete: 'cascade' });
 	};
 
 	return Color;
