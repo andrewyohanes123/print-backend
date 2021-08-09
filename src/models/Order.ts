@@ -10,6 +10,7 @@ export interface OrderAttributes {
   phone: string;
   confirmed?: boolean;
 	custom_cloth: boolean;
+	description?: string;
 	cloth_id?: number;
 	color_id?: number;
   order_number: string;
@@ -54,6 +55,10 @@ export const OrderFactory: Factory<OrderInstance, OrderAttributes> = (
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
 			defaultValue: false
+		},
+		description: {
+			type: DataTypes.TEXT,
+			allowNull: true,
 		}
 	};
 	const Order: Sequelize.Model<OrderInstance, OrderAttributes> = sequelize.define<

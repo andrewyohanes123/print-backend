@@ -57,7 +57,7 @@ const ordersRoutes: Routes = (
                     include: [{
                         model: models.Color, attributes: ['id', 'color'],
                     }, {
-                        model: models.Cloth, attributes: ['id', 'name']
+                        model: models.Cloth, attributes: ['id', 'name', 'price']
                     }]
                 });
                 if (!order) throw new NotFoundError('Order tidak ditemukan');
@@ -86,7 +86,7 @@ const ordersRoutes: Routes = (
                 const order: OrderInstance = await models.Order.create(attributes);
                 // ----
                 for (let i = 0; i < order_counts.length; i++) {
-                    await models.OrderCount.create({ cloth_id, amount: order_counts[i].amount, order_id: order.id });
+                    await models.OrderCount.create({ cloth_id, amount: order_counts[i].amount, order_id: order.id, size_id: order_counts[i].size_id });
                     if (!custom_cloth) {
                         const stock: ColorSizeStockInstance | null = await models.ColorSizeStock.findByPk(order_counts[i].color_size_stock_id);
                         stock && await stock.update({ stock: stock.stock - order_counts[i].amount });
