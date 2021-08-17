@@ -1,5 +1,7 @@
 
 import express from 'express';
+import fs from 'fs';
+import path from 'path';
 import ModelFactoryInterface from '../models/typings/ModelFactoryInterface';
 import { Routes } from './typings/RouteInterface';
 import a from '../middlewares/wrapper/a';
@@ -52,8 +54,12 @@ const portfoliosRoutes: Routes = (
         // validation,
         a(
             async (req: express.Request, res: express.Response): Promise<void> => {
+                const currentDate = new Date().toISOString().replace(/\:/g, '');
                 const attributes: PortfolioAttributes = req.body;
-                const portfolio: PortfolioInstance = await models.Portfolio.create(attributes);
+                const filename: string = `[Portfolio] ${currentDate}.png`;
+                const fileData: string = attributes.picture.split(',')[1];
+                fs.writeFileSync(path.resolve(__dirname, '..', '..', 'uploads', filename), fileData, 'base64');
+                const portfolio: PortfolioInstance = await models.Portfolio.create({ picture: filename });
                 const body: OkResponse = { data: portfolio };
 
                 res.json(body);
@@ -97,4 +103,3 @@ const portfoliosRoutes: Routes = (
 };
 
 export default portfoliosRoutes;
-    
