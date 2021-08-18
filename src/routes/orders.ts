@@ -93,7 +93,7 @@ const ordersRoutes: Routes = (
                     }
                 }
                 for (let i = 0; i < cloth_sides.length; i++) {
-                    const { cloth_side_id, design_file, design_x, design_y, design_height, design_width } = cloth_sides[i];
+                    const { cloth_side_id, design_file, design_x, design_y, design_height, design_width, design_rotation } = cloth_sides[i];
                     const filename = `${currentDate.toISOString().replace(/\:/g, '')}[${cloth_side_id}]-[${order.id}]-[order_sides_design].png`
                     fs.writeFileSync(path.resolve(__dirname, '..', '..', 'uploads', filename), design_file.split(',')[1], 'base64');
                     await models.OrderClothSide.create({
@@ -105,6 +105,7 @@ const ordersRoutes: Routes = (
                         mockup_file: filename,
                         order_id: order.id,
                         cloth_side_id,
+                        design_rotation
                     });
                 }
                 const body: OkResponse = { data: order };

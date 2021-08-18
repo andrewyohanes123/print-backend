@@ -33,7 +33,6 @@ export const AboutFactory: Factory<AboutInstance, AboutAttributes> = (
 	>('about', attributes, { underscored: true });
 
 	About.associate = (models: ModelFactoryInterface): void => {
-		About.hasMany(models.Cloth, { onDelete: 'cascade' });
 	};
 
 	return About;

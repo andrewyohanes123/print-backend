@@ -33,7 +33,6 @@ export const PortfolioFactory: Factory<PortfolioInstance, PortfolioAttributes> =
 	>('portfolio', attributes, { underscored: true });
 
 	Portfolio.associate = (models: ModelFactoryInterface): void => {
-		Portfolio.hasMany(models.Cloth, { onDelete: 'cascade' });
 	};
 
 	return Portfolio;
