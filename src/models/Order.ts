@@ -6,14 +6,14 @@ import ModelFactoryInterface from './typings/ModelFactoryInterface';
 export interface OrderAttributes {
 	id?: number;
 	name: string;
-  email: string;
-  phone: string;
-  confirmed?: boolean;
+	email: string;
+	phone: string;
+	status?: "Menunggu Konfirmasi" | "Sementara Diproses" | "Pesanan Selesai";
 	custom_cloth: boolean;
 	description?: string;
 	cloth_id?: number;
 	color_id?: number;
-  order_number: string;
+	order_number: string;
 	created_at?: Date;
 	updated_at?: Date;
 }
@@ -34,23 +34,23 @@ export const OrderFactory: Factory<OrderInstance, OrderAttributes> = (
 			type: DataTypes.STRING(191),
 			allowNull: false,
 		},
-    email: {
-      type: DataTypes.STRING(191),
-      allowNull: false
-    },
-    phone: {
-      type: DataTypes.STRING(191),
-      allowNull: false
-    },
-    confirmed: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    order_number: {
-      type: DataTypes.STRING(191),
-      allowNull: false,      
-    },
+		email: {
+			type: DataTypes.STRING(191),
+			allowNull: false
+		},
+		phone: {
+			type: DataTypes.STRING(191),
+			allowNull: false
+		},
+		status: {
+			type: DataTypes.ENUM(["Menunggu Konfirmasi", "Sementara Diproses", "Pesanan Selesai"]),
+			allowNull: true,
+			defaultValue: "Menunggu Konfirmasi"
+		},
+		order_number: {
+			type: DataTypes.STRING(191),
+			allowNull: false,
+		},
 		custom_cloth: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
