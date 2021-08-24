@@ -11,6 +11,7 @@ import sequelize from 'sequelize';
 import { Parser } from '../helpers/Parser';
 import NotFoundError from '../classes/NotFoundError';
 import { PortfolioInstance, PortfolioAttributes } from '../models/Portfolio';
+import { upload } from './cloth_sides';
 
 const portfoliosRoutes: Routes = (
     app: express.Application,
@@ -51,7 +52,9 @@ const portfoliosRoutes: Routes = (
 
     router.post(
         '/',
+        upload.single('picture'),
         // validation,
+
         a(
             async (req: express.Request, res: express.Response): Promise<void> => {
                 const currentDate = new Date().toISOString().replace(/\:/g, '');
