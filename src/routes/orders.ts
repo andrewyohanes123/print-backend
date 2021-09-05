@@ -13,6 +13,7 @@ import NotFoundError from '../classes/NotFoundError';
 import { OrderInstance, OrderAttributes } from '../models/Order';
 import { OrderClothSideAttributes } from '../models/OrderClothSide';
 import { ColorSizeStockInstance } from '../models/ColorSizeStock';
+import { upload } from './cloth_sides';
 
 export interface OrderAmount {
     color_size_stock_id: number;
@@ -118,13 +119,14 @@ const ordersRoutes: Routes = (
     router.put(
         '/:id',
         // validation,
+        upload.single('receipt'),
         a(
             async (req: express.Request, res: express.Response): Promise<void> => {
                 const { id }: any = req.params;
-                const attributes: OrderAttributes = req.body;
+                const file = req.file;
                 const order: OrderInstance | null = await models.Order.findByPk(id);
                 if (!order) throw new NotFoundError('Order tidak ditemukan');
-                const updatedOrder: OrderInstance = await order.update(attributes);
+                const updatedOrder: OrderInstance = await order.update({ receipt_file: file?.filename });
                 const body: OkResponse = { data: updatedOrder };
 
                 res.json(body);
