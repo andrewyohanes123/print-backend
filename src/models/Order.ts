@@ -14,6 +14,7 @@ export interface OrderAttributes {
 	cloth_id?: number;
 	color_id?: number;
 	order_number: string;
+	receipt_file?: string;
 	created_at?: Date;
 	updated_at?: Date;
 }
@@ -59,6 +60,10 @@ export const OrderFactory: Factory<OrderInstance, OrderAttributes> = (
 		description: {
 			type: DataTypes.TEXT,
 			allowNull: true,
+		},
+		receipt_file: {
+			type: DataTypes.TEXT,
+			allowNull: true
 		}
 	};
 	const Order: Sequelize.Model<OrderInstance, OrderAttributes> = sequelize.define<
@@ -71,6 +76,7 @@ export const OrderFactory: Factory<OrderInstance, OrderAttributes> = (
 		Order.hasMany(models.OrderClothSide, { onDelete: 'cascade' });
 		Order.belongsTo(models.Cloth, { onDelete: 'cascade' });
 		Order.belongsTo(models.Color, { onDelete: 'cascade' });
+		// Order.belongsTo(models.User, { onDelete: 'cascade' });
 	};
 
 	return Order;

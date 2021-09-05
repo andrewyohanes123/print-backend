@@ -36,7 +36,7 @@ export const UserFactory: Factory<UserInstance, UserAttributes> = (
 		password: {
 			type: DataTypes.STRING(191),
 			allowNull: false,
-		},
+		}
 	};
 	const User: Sequelize.Model<UserInstance, UserAttributes> = sequelize.define<
 		UserInstance,
@@ -45,6 +45,7 @@ export const UserFactory: Factory<UserInstance, UserAttributes> = (
 
 	User.associate = (models: ModelFactoryInterface): void => {
 		User.hasMany(models.Token, { onDelete: 'cascade' });
+		// User.hasMany(models.Order, { onDelete: 'cascade' });
 	};
 
 	return User;
